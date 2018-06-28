@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="862b34f3162443f891db0019575aad88" Name="Diagram1">
+        <EntityTypeShape EntityType="OptumAIModel.Appoinment" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.Cause" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.Disease" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.DiseaseSymptom" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.Patient" Width="1.5" PointX="3" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.Physician" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.Speciality" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.Symptom" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OptumAIModel.SymptomsCaus" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="OptumAIModel.FK__Appoinmen__Patie__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__Appoinmen__Physi__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__SymptomsC__Cause__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__Disease__Special__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__DiseaseSy__Disea__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__DiseaseSy__Sympt__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__Physician__Speci__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="OptumAIModel.FK__SymptomsC__Sympt__6D0D32F4" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

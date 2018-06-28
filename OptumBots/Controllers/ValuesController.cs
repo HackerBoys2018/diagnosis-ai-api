@@ -7,24 +7,30 @@ using System.Web.Http;
 
 namespace OptumBots.Controllers
 {
-    [Authorize]
     public class ValuesController : ApiController
     {
+
         // GET api/values
+        OptumAIEntities1 en = new OptumAIEntities1();
+
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var ex = from disease in en.Diseases
+                     select disease.Name;
+            return ex;
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public string Get(string cause, [FromBody] Symptom sym )
         {
             return "value";
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Patient value)
         {
+            en.Patients.Add(value);
+            en.SaveChanges();
         }
 
         // PUT api/values/5

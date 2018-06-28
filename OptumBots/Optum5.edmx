@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OptumAIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appoinments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientID" Type="int" />
+          <Property Name="PhysicianID" Type="int" />
+          <Property Name="AppointmentDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Cause">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Disease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="isEmergency" Type="int" />
+          <Property Name="SpecialityID" Type="int" />
+        </EntityType>
+        <EntityType Name="DiseaseSymptoms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SymptomsCauseID" Type="int" />
+          <Property Name="DiseaseID" Type="int" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Location" Type="varchar(max)" />
+          <Property Name="EmailID" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Physician">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="SpecialityID" Type="int" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Symptom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SymptomsCauses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SymptomID" Type="int" />
+          <Property Name="CauseID" Type="int" />
+        </EntityType>
+        <Association Name="FK__Appoinmen__Patie__76969D2E">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Appoinments" Type="Self.Appoinments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appoinments">
+              <PropertyRef Name="PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appoinmen__Physi__778AC167">
+          <End Role="Physician" Type="Self.Physician" Multiplicity="0..1" />
+          <End Role="Appoinments" Type="Self.Appoinments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Physician">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appoinments">
+              <PropertyRef Name="PhysicianID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disease__Special__66603565">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Disease" Type="Self.Disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Disease">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DiseaseSy__Disea__71D1E811">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="0..1" />
+          <End Role="DiseaseSymptoms" Type="Self.DiseaseSymptoms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DiseaseSymptoms">
+              <PropertyRef Name="DiseaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DiseaseSy__Sympt__70DDC3D8">
+          <End Role="SymptomsCauses" Type="Self.SymptomsCauses" Multiplicity="0..1" />
+          <End Role="DiseaseSymptoms" Type="Self.DiseaseSymptoms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SymptomsCauses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DiseaseSymptoms">
+              <PropertyRef Name="SymptomsCauseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Physician__Speci__6383C8BA">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Physician" Type="Self.Physician" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Physician">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SymptomsC__Cause__6E01572D">
+          <End Role="Cause" Type="Self.Cause" Multiplicity="0..1" />
+          <End Role="SymptomsCauses" Type="Self.SymptomsCauses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cause">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SymptomsCauses">
+              <PropertyRef Name="CauseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SymptomsC__Sympt__6D0D32F4">
+          <End Role="Symptom" Type="Self.Symptom" Multiplicity="0..1" />
+          <End Role="SymptomsCauses" Type="Self.SymptomsCauses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Symptom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SymptomsCauses">
+              <PropertyRef Name="SymptomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OptumAIModelStoreContainer">
+          <EntitySet Name="Appoinments" EntityType="Self.Appoinments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cause" EntityType="Self.Cause" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Disease" EntityType="Self.Disease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiseaseSymptoms" EntityType="Self.DiseaseSymptoms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Physician" EntityType="Self.Physician" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Symptom" EntityType="Self.Symptom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SymptomsCauses" EntityType="Self.SymptomsCauses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Appoinmen__Patie__76969D2E" Association="Self.FK__Appoinmen__Patie__76969D2E">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="Appoinments" EntitySet="Appoinments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appoinmen__Physi__778AC167" Association="Self.FK__Appoinmen__Physi__778AC167">
+            <End Role="Physician" EntitySet="Physician" />
+            <End Role="Appoinments" EntitySet="Appoinments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disease__Special__66603565" Association="Self.FK__Disease__Special__66603565">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Disease" EntitySet="Disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DiseaseSy__Disea__71D1E811" Association="Self.FK__DiseaseSy__Disea__71D1E811">
+            <End Role="Disease" EntitySet="Disease" />
+            <End Role="DiseaseSymptoms" EntitySet="DiseaseSymptoms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DiseaseSy__Sympt__70DDC3D8" Association="Self.FK__DiseaseSy__Sympt__70DDC3D8">
+            <End Role="SymptomsCauses" EntitySet="SymptomsCauses" />
+            <End Role="DiseaseSymptoms" EntitySet="DiseaseSymptoms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Physician__Speci__6383C8BA" Association="Self.FK__Physician__Speci__6383C8BA">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Physician" EntitySet="Physician" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SymptomsC__Cause__6E01572D" Association="Self.FK__SymptomsC__Cause__6E01572D">
+            <End Role="Cause" EntitySet="Cause" />
+            <End Role="SymptomsCauses" EntitySet="SymptomsCauses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SymptomsC__Sympt__6D0D32F4" Association="Self.FK__SymptomsC__Sympt__6D0D32F4">
+            <End Role="Symptom" EntitySet="Symptom" />
+            <End Role="SymptomsCauses" EntitySet="SymptomsCauses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OptumAIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appoinment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientID" Type="Int32" />
+          <Property Name="PhysicianID" Type="Int32" />
+          <Property Name="AppointmentDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK__Appoinmen__Patie__76969D2E" FromRole="Appoinments" ToRole="Patient" />
+          <NavigationProperty Name="Physician" Relationship="Self.FK__Appoinmen__Physi__778AC167" FromRole="Appoinments" ToRole="Physician" />
+        </EntityType>
+        <EntityType Name="Cause">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SymptomsCauses" Relationship="Self.FK__SymptomsC__Cause__6E01572D" FromRole="Cause" ToRole="SymptomsCauses" />
+        </EntityType>
+        <EntityType Name="Disease">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isEmergency" Type="Int32" />
+          <Property Name="SpecialityID" Type="Int32" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK__Disease__Special__66603565" FromRole="Disease" ToRole="Speciality" />
+          <NavigationProperty Name="DiseaseSymptoms" Relationship="Self.FK__DiseaseSy__Disea__71D1E811" FromRole="Disease" ToRole="DiseaseSymptoms" />
+        </EntityType>
+        <EntityType Name="DiseaseSymptom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SymptomsCauseID" Type="Int32" />
+          <Property Name="DiseaseID" Type="Int32" />
+          <NavigationProperty Name="Disease" Relationship="Self.FK__DiseaseSy__Disea__71D1E811" FromRole="DiseaseSymptoms" ToRole="Disease" />
+          <NavigationProperty Name="SymptomsCaus" Relationship="Self.FK__DiseaseSy__Sympt__70DDC3D8" FromRole="DiseaseSymptoms" ToRole="SymptomsCauses" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EmailID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Appoinments" Relationship="Self.FK__Appoinmen__Patie__76969D2E" FromRole="Patient" ToRole="Appoinments" />
+        </EntityType>
+        <EntityType Name="Physician">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SpecialityID" Type="Int32" />
+          <NavigationProperty Name="Appoinments" Relationship="Self.FK__Appoinmen__Physi__778AC167" FromRole="Physician" ToRole="Appoinments" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK__Physician__Speci__6383C8BA" FromRole="Physician" ToRole="Speciality" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Diseases" Relationship="Self.FK__Disease__Special__66603565" FromRole="Speciality" ToRole="Disease" />
+          <NavigationProperty Name="Physicians" Relationship="Self.FK__Physician__Speci__6383C8BA" FromRole="Speciality" ToRole="Physician" />
+        </EntityType>
+        <EntityType Name="Symptom">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SymptomsCauses" Relationship="Self.FK__SymptomsC__Sympt__6D0D32F4" FromRole="Symptom" ToRole="SymptomsCauses" />
+        </EntityType>
+        <EntityType Name="SymptomsCaus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SymptomID" Type="Int32" />
+          <Property Name="CauseID" Type="Int32" />
+          <NavigationProperty Name="Cause" Relationship="Self.FK__SymptomsC__Cause__6E01572D" FromRole="SymptomsCauses" ToRole="Cause" />
+          <NavigationProperty Name="DiseaseSymptoms" Relationship="Self.FK__DiseaseSy__Sympt__70DDC3D8" FromRole="SymptomsCauses" ToRole="DiseaseSymptoms" />
+          <NavigationProperty Name="Symptom" Relationship="Self.FK__SymptomsC__Sympt__6D0D32F4" FromRole="SymptomsCauses" ToRole="Symptom" />
+        </EntityType>
+        <Association Name="FK__Appoinmen__Patie__76969D2E">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="Appoinments" Type="Self.Appoinment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appoinments">
+              <PropertyRef Name="PatientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appoinmen__Physi__778AC167">
+          <End Role="Physician" Type="Self.Physician" Multiplicity="0..1" />
+          <End Role="Appoinments" Type="Self.Appoinment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Physician">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appoinments">
+              <PropertyRef Name="PhysicianID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SymptomsC__Cause__6E01572D">
+          <End Role="Cause" Type="Self.Cause" Multiplicity="0..1" />
+          <End Role="SymptomsCauses" Type="Self.SymptomsCaus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cause">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SymptomsCauses">
+              <PropertyRef Name="CauseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disease__Special__66603565">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Disease" Type="Self.Disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Disease">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DiseaseSy__Disea__71D1E811">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="0..1" />
+          <End Role="DiseaseSymptoms" Type="Self.DiseaseSymptom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DiseaseSymptoms">
+              <PropertyRef Name="DiseaseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DiseaseSy__Sympt__70DDC3D8">
+          <End Role="SymptomsCauses" Type="Self.SymptomsCaus" Multiplicity="0..1" />
+          <End Role="DiseaseSymptoms" Type="Self.DiseaseSymptom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SymptomsCauses">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DiseaseSymptoms">
+              <PropertyRef Name="SymptomsCauseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Physician__Speci__6383C8BA">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Physician" Type="Self.Physician" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Physician">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SymptomsC__Sympt__6D0D32F4">
+          <End Role="Symptom" Type="Self.Symptom" Multiplicity="0..1" />
+          <End Role="SymptomsCauses" Type="Self.SymptomsCaus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Symptom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SymptomsCauses">
+              <PropertyRef Name="SymptomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OptumAIEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appoinments" EntityType="Self.Appoinment" />
+          <EntitySet Name="Causes" EntityType="Self.Cause" />
+          <EntitySet Name="Diseases" EntityType="Self.Disease" />
+          <EntitySet Name="DiseaseSymptoms" EntityType="Self.DiseaseSymptom" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Physicians" EntityType="Self.Physician" />
+          <EntitySet Name="Specialities" EntityType="Self.Speciality" />
+          <EntitySet Name="Symptoms" EntityType="Self.Symptom" />
+          <EntitySet Name="SymptomsCauses" EntityType="Self.SymptomsCaus" />
+          <AssociationSet Name="FK__Appoinmen__Patie__76969D2E" Association="Self.FK__Appoinmen__Patie__76969D2E">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Appoinments" EntitySet="Appoinments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appoinmen__Physi__778AC167" Association="Self.FK__Appoinmen__Physi__778AC167">
+            <End Role="Physician" EntitySet="Physicians" />
+            <End Role="Appoinments" EntitySet="Appoinments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SymptomsC__Cause__6E01572D" Association="Self.FK__SymptomsC__Cause__6E01572D">
+            <End Role="Cause" EntitySet="Causes" />
+            <End Role="SymptomsCauses" EntitySet="SymptomsCauses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disease__Special__66603565" Association="Self.FK__Disease__Special__66603565">
+            <End Role="Speciality" EntitySet="Specialities" />
+            <End Role="Disease" EntitySet="Diseases" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DiseaseSy__Disea__71D1E811" Association="Self.FK__DiseaseSy__Disea__71D1E811">
+            <End Role="Disease" EntitySet="Diseases" />
+            <End Role="DiseaseSymptoms" EntitySet="DiseaseSymptoms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DiseaseSy__Sympt__70DDC3D8" Association="Self.FK__DiseaseSy__Sympt__70DDC3D8">
+            <End Role="SymptomsCauses" EntitySet="SymptomsCauses" />
+            <End Role="DiseaseSymptoms" EntitySet="DiseaseSymptoms" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Physician__Speci__6383C8BA" Association="Self.FK__Physician__Speci__6383C8BA">
+            <End Role="Speciality" EntitySet="Specialities" />
+            <End Role="Physician" EntitySet="Physicians" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SymptomsC__Sympt__6D0D32F4" Association="Self.FK__SymptomsC__Sympt__6D0D32F4">
+            <End Role="Symptom" EntitySet="Symptoms" />
+            <End Role="SymptomsCauses" EntitySet="SymptomsCauses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OptumAIModelStoreContainer" CdmEntityContainer="OptumAIEntities1">
+          <EntitySetMapping Name="Appoinments">
+            <EntityTypeMapping TypeName="OptumAIModel.Appoinment">
+              <MappingFragment StoreEntitySet="Appoinments">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="PhysicianID" ColumnName="PhysicianID" />
+                <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Causes">
+            <EntityTypeMapping TypeName="OptumAIModel.Cause">
+              <MappingFragment StoreEntitySet="Cause">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diseases">
+            <EntityTypeMapping TypeName="OptumAIModel.Disease">
+              <MappingFragment StoreEntitySet="Disease">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="isEmergency" ColumnName="isEmergency" />
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DiseaseSymptoms">
+            <EntityTypeMapping TypeName="OptumAIModel.DiseaseSymptom">
+              <MappingFragment StoreEntitySet="DiseaseSymptoms">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SymptomsCauseID" ColumnName="SymptomsCauseID" />
+                <ScalarProperty Name="DiseaseID" ColumnName="DiseaseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="OptumAIModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Physicians">
+            <EntityTypeMapping TypeName="OptumAIModel.Physician">
+              <MappingFragment StoreEntitySet="Physician">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialities">
+            <EntityTypeMapping TypeName="OptumAIModel.Speciality">
+              <MappingFragment StoreEntitySet="Speciality">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Symptoms">
+            <EntityTypeMapping TypeName="OptumAIModel.Symptom">
+              <MappingFragment StoreEntitySet="Symptom">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SymptomsCauses">
+            <EntityTypeMapping TypeName="OptumAIModel.SymptomsCaus">
+              <MappingFragment StoreEntitySet="SymptomsCauses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SymptomID" ColumnName="SymptomID" />
+                <ScalarProperty Name="CauseID" ColumnName="CauseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
